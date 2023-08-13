@@ -10,6 +10,15 @@ KMRoute::group( 'questions', function () {
 			'questions',
 			'create'
 		] );
+		KMRoute::get( '/:id/edit', 'questions.edit' )->name( 'questions.edit' )->queryVars( [
+			'questions',
+			'id',
+			'edit'
+		] )->regex( [ 'id' => '([0-9-]+)' ] );
 	} );
+	KMRoute::get( '/:slug', 'questions.single' )->name( 'questions.view' )->queryVars( [
+		'questions',
+		'slug'
+	] )->regex( [ 'slug' => '([a-z-]+)' ] );
 	KMRoute::get( '/', 'questions.index' )->name( 'questions.index' );
 } );
