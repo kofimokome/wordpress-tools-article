@@ -280,7 +280,7 @@ if ( ! class_exists( 'KMRoute' ) ) {
 
 				return site_url( $route );
 			} else {
-				return '';
+				return 'bro';
 			}
 		}
 

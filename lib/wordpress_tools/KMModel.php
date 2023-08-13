@@ -404,10 +404,9 @@ if ( ! class_exists( 'KMModel' ) ) {
 				}
 				$table_name = ltrim( $table_name, '_' );
 				$table_name = Plural( $table_name );
-
+				$table_name = $env['TABLE_PREFIX'] . $table_name;
 			}
 
-			$table_name = $env['TABLE_PREFIX'] . $table_name;
 
 			return $table_name;
 
