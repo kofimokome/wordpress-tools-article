@@ -92,7 +92,9 @@ function Loader(): bool {
 	return $error;
 }
 
-Loader();
+if ( ! Loader() ) {
+	KMMigration::runUpdateMigrations();
+}
 
 // remove options upon deactivation
 

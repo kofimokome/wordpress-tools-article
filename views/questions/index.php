@@ -1,5 +1,11 @@
 <?php
+
+namespace wp_questions;
+
+use KMRoute;
+
 get_header();
+$questions = Question::all();
 ?>
 
     <div class="container-fluid">
@@ -10,7 +16,8 @@ get_header();
                         <h4 class="mb-1 mt-0">All Questions</h4>
                     </div>
                     <div class="col-sm-8 col-xl-6 d-flex justify-content-end">
-                        <a class="btn btn-primary btn-lg" href="#">Ask a question</a>
+                        <a class="btn btn-primary btn-lg" href="<?php echo KMRoute::route( 'questions.create' ) ?>">Ask a
+                            question</a>
                     </div>
                 </div>
             </div>
@@ -30,21 +37,23 @@ get_header();
         </div>
         <div class="row mt-3">
             <div class="col-md-6 mx-auto">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h2><a href="#">Question Title</a></h2>
-                        <div>
-                            Question Description
-                        </div>
-                        <div class="d-flex justify-content-end mt-2">
-                            <div class="ms-4">
-                                <a href="#">Ndzi Vera Vera</a>
-                                <span class="text-muted mr-2">3 days ago</span>
-                                <span>0 answers</span>
+				<?php foreach ( $questions as $question ): ?>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h2><a href="#"><?php echo $question->title ?></a></h2>
+                            <div>
+								<?php echo $question->content ?>
+                            </div>
+                            <div class="d-flex justify-content-end mt-2">
+                                <div class="ms-4">
+                                    <a href="#">Ndzi Vera Vera</a>
+                                    <span class="text-muted mr-2"><?php echo date( 'Y-m-d', $question->created_at ) ?></span>
+                                    <span>0 answers</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+				<?php endforeach; ?>
                 <nav class="d-flex justify-items-center justify-content-between">
                     <div class="d-flex justify-content-between flex-fill d-sm-none">
                         <ul class="pagination">
@@ -82,5 +91,5 @@ get_header();
             </div>
         </div>
     </div>
-<?php
+	<?php
 get_footer();

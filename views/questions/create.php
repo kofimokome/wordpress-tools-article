@@ -34,7 +34,7 @@ get_header();
                                 </small>
                             </div>
                             <button type="submit" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#submit-question">Submit question
+                                    id="#submit-question">Submit question
                             </button>
                         </form>
                     </div> <!-- end card-body-->
