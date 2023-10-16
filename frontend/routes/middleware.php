@@ -2,20 +2,22 @@
 
 namespace wp_questions;
 
-use KMRoute;
+use WordPressTools;
 
 /**
  * Prevents a guest from accessing protected  pages
  */
-function authGuard( $view ): string {
+$instance = WordPressTools::getInstance( __FILE__ );
 
+function authGuard( $view ): string {
+	global $instance;
 	if ( ! is_user_logged_in() ) {
-		return KMRoute::renderView( 'redirect.login' );
+		return $instance->renderView( 'redirect.login' );
 	}
 
-	return KMRoute::renderView( $view );
+	return $instance->renderView( $view );
 }
 
-KMRoute::registerMiddleware( 'auth', function ( string $view ) {
+$instance->route_manager->registerMiddleware( 'auth', function ( string $view ) {
 	return authGuard( $view );
 } );

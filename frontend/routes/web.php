@@ -2,30 +2,26 @@
 
 namespace wp_questions;
 
-use KMRoute;
+use WordPressTools;
 
-KMRoute::group( 'questions', function () {
+$instance = WordPressTools::getInstance( __FILE__ );
 
-	KMRoute::middleware( 'auth', function () {
 
-		KMRoute::get( '/create', 'questions.create' )->name( 'questions.create' )->queryVars( [
+$instance->routes()->group( 'questions', function () use ( $instance ) {
+	$instance->routes()->middleware( 'auth', function () use ( $instance ) {
+		$instance->routes()->add( '/create', 'questions.create' )->name( 'questions.create' )->queryVars( [
 			'questions',
 			'create'
 		] );
-
-		KMRoute::get( '/:id/edit', 'questions.edit' )->name( 'questions.edit' )->queryVars( [
+		$instance->routes()->add( '/:id/edit', 'questions.edit' )->name( 'questions.edit' )->queryVars( [
 			'questions',
 			'id',
 			'edit'
 		] )->regex( [ 'id' => '([0-9-]+)' ] );
-
 	} );
-
-	KMRoute::get( '/:slug', 'questions.single' )->name( 'questions.view' )->queryVars( [
+	$instance->routes()->add( '/:slug', 'questions.single' )->name( 'questions.view' )->queryVars( [
 		'questions',
 		'slug'
-	] )->regex( [ 'slug' => '([a-z0-9-]+)' ] );
-
-	KMRoute::get( '/', 'questions.index' )->name( 'questions.index' );
-
+	] )->regex( [ 'slug' => '([a-z-]+)' ] );
+	$instance->routes()->add( '/', 'questions.index' )->name( 'questions.index' );
 } );

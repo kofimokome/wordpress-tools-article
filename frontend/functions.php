@@ -2,6 +2,7 @@
 
 namespace wp_questions;
 
-use KMRoute;
+use WordPressTools;
 
-KMRoute::registerRoutes();
+$instance = WordPressTools::getInstance( __FILE__ );
+$instance->route_manager->registerRoutes();
