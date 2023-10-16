@@ -44,57 +44,47 @@ function ErrorNotice( $message = '' ): void {
 
 add_action( 'admin_notices', 'wp_questions\\ErrorNotice', 10, 1 );
 
-/***
- * loads classes / files
- * @since 1.0.0
- * @author kofimokome
- ***/
-function Loader(): bool {
-	$error = false;
 
-	// scan directories for requires.php files
-	foreach ( scandir( __DIR__ ) as $dir ) {
-		if ( strpos( $dir, '.' ) === false && is_dir( __DIR__ . '/' . $dir ) && is_file( __DIR__ . '/' . $dir . '/requires.php' ) ) {
-			require_once __DIR__ . '/' . $dir . '/requires.php';
-		}
+$error = false;
+
+// scan directories for requires.php files
+foreach ( scandir( __DIR__ ) as $dir ) {
+	if ( strpos( $dir, '.' ) === false && is_dir( __DIR__ . '/' . $dir ) && is_file( __DIR__ . '/' . $dir . '/requires.php' ) ) {
+		require_once __DIR__ . '/' . $dir . '/requires.php';
 	}
-
-	$requires = apply_filters( 'kmwpq_requires_filter', [] );
-
-	foreach ( $requires as $file ) {
-		if ( ! $filepath = file_exists( $file ) ) {
-			ErrorNotice( sprintf( __( 'Error locating <b>%s</b> for inclusion', WPQ_TEXT_DOMAIN ), $file ) );
-			$error = true;
-		} else {
-			require_once $file;
-		}
-	}
-
-
-	// scan directories for includes.php files
-	foreach ( scandir( __DIR__ ) as $dir ) {
-		if ( strpos( $dir, '.' ) === false && is_dir( __DIR__ . '/' . $dir ) && is_file( __DIR__ . '/' . $dir . '/includes.php' ) ) {
-			require_once __DIR__ . '/' . $dir . '/includes.php';
-		}
-	}
-
-	$includes = apply_filters( 'kmwpq_includes_filter', [] );
-
-	foreach ( $includes as $file ) {
-		if ( ! $filepath = file_exists( $file ) ) {
-			ErrorNotice( sprintf( __( 'Error locating <b>%s</b> for inclusion', WPQ_TEXT_DOMAIN ), $file ) );
-			$error = true;
-		} else {
-			include_once $file;
-		}
-	}
-
-	return $error;
 }
 
-if ( ! Loader() ) {
-	$wordpress_tools = new WordPressTools( __FILE__ );
+$requires = apply_filters( 'kmwpq_requires_filter', [] );
+
+foreach ( $requires as $file ) {
+	if ( ! $filepath = file_exists( $file ) ) {
+		ErrorNotice( sprintf( __( 'Error locating <b>%s</b> for inclusion', WPQ_TEXT_DOMAIN ), $file ) );
+		$error = true;
+	} else {
+		require_once $file;
+	}
 }
+
+$wordpress_tools = new WordPressTools( __FILE__ );
+
+// scan directories for includes.php files
+foreach ( scandir( __DIR__ ) as $dir ) {
+	if ( strpos( $dir, '.' ) === false && is_dir( __DIR__ . '/' . $dir ) && is_file( __DIR__ . '/' . $dir . '/includes.php' ) ) {
+		require_once __DIR__ . '/' . $dir . '/includes.php';
+	}
+}
+
+$includes             = apply_filters( 'kmwpq_includes_filter', [] );
+
+foreach ( $includes as $file ) {
+	if ( ! $filepath = file_exists( $file ) ) {
+		ErrorNotice( sprintf( __( 'Error locating <b>%s</b> for inclusion', WPQ_TEXT_DOMAIN ), $file ) );
+		$error = true;
+	} else {
+		include_once $file;
+	}
+}
+
 
 // remove options upon deactivation
 
@@ -118,7 +108,7 @@ register_uninstall_hook( __FILE__, 'wp_questions\\OnUninstall' );
  * @author kofimokome
  */
 function OnUninstall(): void {
-    // some code here
+	// some code here
 }
 
 register_activation_hook( __FILE__, 'wp_questions\\OnActivation' );
@@ -134,4 +124,3 @@ function OnActivation(): void {
 
 // todo: for future use
 load_plugin_textdomain( WPQ_TEXT_DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
-
