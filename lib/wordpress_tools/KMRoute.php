@@ -77,7 +77,7 @@ if ( ! class_exists( 'KMRoute' ) ) {
 		public function add( string $route, $view ): KMRoute {
 
 			$this->initRoute( $route, $view, $this->routeManager->currentMiddleware );
-			$this->routeManager->routes[] = $route;
+			$this->routeManager->routes[] = $this;
 
 			return $this;
 		}
