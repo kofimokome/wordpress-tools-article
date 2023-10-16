@@ -107,7 +107,6 @@ if ( ! class_exists( 'KMMigrationManager' ) ) {
 					$blueprint = new KMBlueprint();
 					$migration_object->up( $blueprint );
 					$column_string = $blueprint->toString();
-
 					$query = $wpdb->prepare( "CREATE TABLE IF NOT EXISTS `%1s` ( $column_string )", [
 						$migration_object->getTableName(),
 					] );
@@ -215,6 +214,7 @@ if ( ! class_exists( 'KMMigrationManager' ) ) {
 					}
 				}
 				$migrations = array_values( $migrations );
+
 				// 5. run the migrations
 				foreach ( $migrations as $migration ) {
 					$this->runMigration( $migration );

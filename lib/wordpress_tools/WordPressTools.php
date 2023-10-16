@@ -7,7 +7,7 @@
 if ( ! class_exists( 'WordPressTools' ) ) {
 	class WordPressTools {
 		public $env;
-		private $route_manager;
+		public $route_manager;
 		public $migration_manager;
 		private $plugin_basename;
 		private $context;
