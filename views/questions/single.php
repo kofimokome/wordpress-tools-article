@@ -2,12 +2,12 @@
 
 namespace wp_questions;
 
-use KMRoute;
+use WordPressTools;
 
 get_header();
 $slug     = sanitize_text_field( get_query_var( 'slug' ) );
 $question = Question::where( 'slug', '=', $slug )->first();
-
+$instance = WordPressTools::getInstance( __FILE__ );
 ?>
     <div class="container-fluid">
         <div class="row">
@@ -16,7 +16,7 @@ $question = Question::where( 'slug', '=', $slug )->first();
                 <div class="row page-title align-items-center">
                     <div class="col-12 d-flex justify-content-end">
                         <a class="btn btn-primary"
-                           href="<?php echo KMRoute::route( 'questions.edit', [ 'id' => $question->id ] ) ?>">Edit
+                           href="<?php echo $instance->route( 'questions.edit', [ 'id' => $question->id ] ) ?>">Edit
                             question</a>
                     </div>
                 </div>
@@ -28,7 +28,7 @@ $question = Question::where( 'slug', '=', $slug )->first();
                     <div class="col-12">
                         <h1 class="mb-1 mt-0"><?php echo $question->title ?> </h1>
                         <div>
-                            asked on the <?php echo date( 'Y-m-d', $question->created_at ) ?> by
+                            asked on the <?php echo date( 'Y-m-d', strtotime( $question->created_at ) ) ?> by
                             <a href="#"><?php echo $question->user()->display_name ?></a>
 
 
@@ -69,7 +69,8 @@ $question = Question::where( 'slug', '=', $slug )->first();
                                             </div>
                                         </div>
                                         <div class="mt-2">
-                                            Answered on the <?php echo date( 'Y-m-d', $answer->created_at ) ?>
+                                            Answered on
+                                            the <?php echo date( 'Y-m-d', strtotime( $answer->created_at ) ) ?>
                                             by
                                             <a href="#"><?php echo $answer->user()->display_name ?></a>
                                         </div>

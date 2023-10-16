@@ -2,11 +2,12 @@
 
 namespace wp_questions;
 
-use KMRoute;
+use WordPressTools;
 
 get_header();
 $current_page = sanitize_text_field( $_GET['page'] ?? 1 );
 $questions    = Question::paginate( 2, $current_page )->orderBy( 'id', 'desc' )->get();
+$instance     = WordPressTools::getInstance( __FILE__ );
 ?>
 
     <div class="container-fluid">
@@ -17,7 +18,7 @@ $questions    = Question::paginate( 2, $current_page )->orderBy( 'id', 'desc' )-
                         <h4 class="mb-1 mt-0">All Questions</h4>
                     </div>
                     <div class="col-sm-8 col-xl-6 d-flex justify-content-end">
-                        <a class="btn btn-primary btn-lg" href="<?php echo KMRoute::route( 'questions.create' ) ?>">Ask
+                        <a class="btn btn-primary btn-lg" href="<?php echo $instance->route( 'questions.create' ) ?>">Ask
                             a
                             question</a>
                     </div>
@@ -42,14 +43,16 @@ $questions    = Question::paginate( 2, $current_page )->orderBy( 'id', 'desc' )-
 				<?php foreach ( $questions['data'] as $question ): ?>
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h2><a href="<?php echo KMRoute::route( 'questions.view', [ 'slug' => $question->slug ] ) ?>"><?php echo $question->title ?></a></h2>
+                            <h2>
+                                <a href="<?php echo $instance->route( 'questions.view', [ 'slug' => $question->slug ] ) ?>"><?php echo $question->title ?></a>
+                            </h2>
                             <div>
 								<?php echo $question->content ?>
                             </div>
                             <div class="d-flex justify-content-end mt-2">
                                 <div class="ms-4">
                                     <a href="#"><?php echo $question->user()->display_name ?></a>
-                                    <span class="text-muted mr-2"><?php echo date( 'Y-m-d', $question->created_at ) ?></span>
+                                    <span class="text-muted mr-2"><?php echo date( 'Y-m-d', strtotime( $question->created_at ) ) ?></span>
                                     <span><?php echo count( $question->answers() ); ?> answers</span>
                                 </div>
                             </div>

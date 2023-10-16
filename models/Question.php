@@ -5,9 +5,10 @@ namespace wp_questions;
 use KMModel;
 
 class Question extends KMModel {
-	protected static bool $soft_delete = true;
+	protected $soft_delete = true;
+	protected $timestamps = true;
 
-	public function user(): KMModel|null {
+	public function user() {
 		return User::where( 'ID', '=', $this->created_by )->first();
 	}
 
