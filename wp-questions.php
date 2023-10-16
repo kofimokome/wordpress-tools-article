@@ -2,7 +2,7 @@
 
 namespace wp_questions;
 
-use KMMigration;
+use WordPressTools;
 
 defined( 'ABSPATH' ) or die( 'Giving To Cesar What Belongs To Caesar' );
 
@@ -92,7 +92,10 @@ function Loader(): bool {
 	return $error;
 }
 
-Loader();
+if ( ! Loader() ) {
+	$wordpress_tools = new WordPressTools( __FILE__ );
+	$wordpress_tools->migration_manager->runMigrations();
+}
 
 // remove options upon deactivation
 
@@ -116,6 +119,7 @@ register_uninstall_hook( __FILE__, 'wp_questions\\OnUninstall' );
  * @author kofimokome
  */
 function OnUninstall(): void {
+	// some code here
 }
 
 register_activation_hook( __FILE__, 'wp_questions\\OnActivation' );
@@ -126,9 +130,8 @@ register_activation_hook( __FILE__, 'wp_questions\\OnActivation' );
  * @author kofimokome
  */
 function OnActivation(): void {
-	KMMigration::runMigrations();
+	// some code here
 }
 
 // todo: for future use
 load_plugin_textdomain( WPQ_TEXT_DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
-
