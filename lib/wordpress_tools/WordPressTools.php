@@ -4,10 +4,26 @@
  * @author kofimokome
  */
 
+require_once 'KMEnv.php';
+require_once 'KMRouteManager.php';
+require_once 'KMMigrationManager.php';
+require_once 'KMBlueprint.php';
+require_once 'KMBuilder.php';
+require_once 'KMMenuPage.php';
+require_once 'KMSubMenuPage.php';
+require_once 'KMSetting.php';
+require_once 'KMColumn.php';
+require_once 'KMModel.php';
+require_once 'KMMigration.php';
+require_once 'KMRoute.php';
+require_once 'KMValidator.php';
+require_once 'lib/plural/Plural.php';
+
+
 if ( ! class_exists( 'WordPressTools' ) ) {
 	class WordPressTools {
 		public $env;
-		private $route_manager;
+		public $route_manager;
 		public $migration_manager;
 		private $plugin_basename;
 		private $context;

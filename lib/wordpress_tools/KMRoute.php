@@ -86,7 +86,7 @@ if ( ! class_exists( 'KMRoute' ) ) {
 		 * @author kofimokome
 		 * @since 1.0.0
 		 */
-		private function registerRoute(): void {
+		public function registerRoute(): void {
 			$route = str_replace( ':', '', $this->route );
 			// split route into parts after /
 			$route_parts = explode( '/', $route );
